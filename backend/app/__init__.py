@@ -1,0 +1,1 @@
+"""Flower assistant backend application."""
