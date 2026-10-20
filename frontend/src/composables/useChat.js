@@ -1,4 +1,4 @@
-import { nextTick, onMounted, ref, watch } from 'vue'
+import { nextTick, onMounted, reactive, ref, watch } from 'vue'
 
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || 'http://127.0.0.1:3001').replace(/\/+$/, '')
 const CHAT_ENDPOINT = `${API_BASE_URL}/chat/stream`
@@ -288,7 +288,7 @@ export function useChat() {
       const requestMessages = messages.value
         .slice(-MAX_CONTEXT_MESSAGES)
         .map(({ role, ...message }) => ({ role, content: messageContentForApi(message) }))
-      assistantMessage = { role: 'assistant', content: '' }
+      assistantMessage = reactive({ role: 'assistant', content: '' })
       messages.value.push(assistantMessage)
 
       const controller = new AbortController()
