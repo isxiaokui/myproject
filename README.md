@@ -28,6 +28,8 @@
 
 项目根目录的 `compose.yaml` 可启动 PostgreSQL、Redis、FastAPI 后端和 Nginx 前端。部署前确认两份忽略的环境文件都已创建：根目录 `.env` 设置强随机 `POSTGRES_PASSWORD`；`backend/.env` 设置新的 `AUTH_SECRET_KEY` 和有效的 `ZAI_API_KEY`，需要天气功能时再设置 `WEATHER_API_KEY`。按正式域名配置 `FRONTEND_ORIGINS`。Compose 会在容器内使用服务名连接数据库和 Redis，不要把容器地址设成 `localhost`。如果任何密钥曾经提交到 Git，应先在对应服务后台撤销并重发，再写入新值。
 
+没有域名的临时验收环境应保持 `WEB_BIND_ADDRESS=127.0.0.1`，然后从本地通过 SSH 隧道访问，例如 `ssh -L 8080:127.0.0.1:80 用户名@服务器地址`，浏览器打开 `http://127.0.0.1:8080`。不要为了验收把端口改为公网监听。
+
 先构建后端和前端镜像（分开构建可降低小规格服务器同时构建的内存峰值）：
 
 ```bash
